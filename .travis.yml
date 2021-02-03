@@ -1,19 +1,43 @@
-git: 
+git:
   depth: 5
-jobs: 
-  include: 
-    - 
-      before_script: 
-        - "cd sample-application-backend"
-      jdk: oraclejdk11
-      language: java
-      stage: "Build and test Java"
-    - 
-      before_script: 
-        - "cd sample-application-frontend"
-      language: node.js
-      stage: "Build ans Test Nodejs"
-cache :
-  directories :
-    - "$HOME/.m2/repository"
-    - "$HOME/.npm"
+
+stages:
+  - "Build and Test"
+  - "Package"
+
+jobs:
+  include:
+  - stage: "Build and Test"
+    language: java
+    jdk: oraclejdk11
+    before_script:
+    - cd sample-application-backend
+    script:
+    - mvn clean verify
+  - stage: "Build and Test"
+    language: node_js
+    node_js: "12.20"
+    before_script:
+    - cd sample-application-frontend
+  - stage: "Package"
+    before_script:
+    - cd sample-application-backend
+    script:
+    - docker build -t backend .
+    - docker login -p $DOCK_PASS -u $DOCK_ID
+    - docker push charlottelina29/devops:backend
+  - stage: "Package"
+    before_script:
+    - cd sample-application-frontend
+    script:
+    - docker build -t frontend .
+    - docker login -p $DOCK_PASS -u $DOCK_ID
+    - docker push charlottelina29/devops:frontend
+
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.npm"
+
+services:
+- docker
