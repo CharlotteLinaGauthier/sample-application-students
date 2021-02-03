@@ -5,6 +5,11 @@ stages:
   - "Build and Test"
   - "Package"
 
+addons :
+  sonarcloud :
+    organization : "devops-cpe"
+    token : "$SONARCLOUD_TOKEN"
+    
 jobs:
   include:
   - stage: "Build and Test"
@@ -13,7 +18,8 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - mvn clean verify
+    - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=CharlotteLinaGauthier_sample-application-students
+
   - stage: "Build and Test"
     language: node_js
     node_js: "12.20"
@@ -33,6 +39,7 @@ jobs:
     - docker build -t charlottelina29/devops:frontend .
     - docker login -p $DOCK_PASS -u $DOCK_ID
     - docker push charlottelina29/devops:frontend
+
 
 cache:
   directories:
