@@ -31,14 +31,14 @@ jobs:
     script:
     - docker build -t charlottelina29/backend:latest .
     - docker login -p $DOCK_PASS -u $DOCK_ID
-    - docker push charlottelina29/devops:backend
+    - docker push charlottelina29/backend:latest
   - stage: "Package"
     before_script:
     - cd sample-application-frontend
     script:
     - docker build -t charlottelina29/frontend:latest .
     - docker login -p $DOCK_PASS -u $DOCK_ID
-    - docker push charlottelina29/devops:frontend
+    - docker push charlottelina29/frontend:latest
 
 
 cache:
