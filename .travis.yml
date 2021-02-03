@@ -23,14 +23,14 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - docker build -t backend .
+    - docker build -t charlottelina29/devops:backend .
     - docker login -p $DOCK_PASS -u $DOCK_ID
     - docker push charlottelina29/devops:backend
   - stage: "Package"
     before_script:
     - cd sample-application-frontend
     script:
-    - docker build -t frontend .
+    - docker build -t charlottelina29/devops:frontend .
     - docker login -p $DOCK_PASS -u $DOCK_ID
     - docker push charlottelina29/devops:frontend
 
