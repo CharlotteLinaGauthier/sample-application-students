@@ -1,0 +1,10 @@
+---
+
+- name: "Launch frontend container"
+  docker_container:
+    name: frontend
+    image: sfireinc/devops:frontend
+    networks:
+    - name: app-network
+    ports:
+      - 80:80

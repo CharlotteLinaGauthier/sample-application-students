@@ -1,0 +1,10 @@
+---
+
+- name: "Launch backend container"
+  docker_container:
+    name: backend
+    image: sfireinc/devops:backend
+    networks:
+    - name: app-network
+    env:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://database:5432/SchoolOrganisation"

@@ -30,7 +30,7 @@ jobs:
     - mvn test
     - mvn org.jacoco:jacoco-maven-plugin:prepare-agent 
     - mvn sonar:sonar -Dsonar.projectKey=CharlotteLinaGauthier_sample-application-students
-  
+
   - stage: "Build and Test"
     language: node_js
     node_js: "12.20"

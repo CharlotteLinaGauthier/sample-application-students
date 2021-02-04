@@ -1,0 +1,25 @@
+- name: "Deployment DevOps Server"
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+  - name: "Installation Docker"
+    include_role:
+      name: install_docker
+  
+  - name: "Create docker network"
+    include_role:
+      name: create_network
+  
+  - name: "Launch database"
+    include_role:
+      name: launch_database
+  
+  - name: "Launch backend"
+    include_role:
+      name: launch_backend
+  
+  - name: "Launch frontend"
+    include_role:
+      name: launch_frontend

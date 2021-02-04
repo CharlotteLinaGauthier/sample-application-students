@@ -1,0 +1,19 @@
+---
+
+- name: "Create db volume folder"
+  file:
+    path: /tmp/db_volume
+    state: directory
+
+- name: "Launch database container"
+  docker_container:
+    name: database
+    image: postgres:12.0-alpine
+    volumes:
+    - /tmp/db_volume
+    networks:
+    - name: app-network
+    env:
+      POSTGRES_PASSWORD: "takimapass"
+      POSTGRES_USER: "takima"
+      POSTGRES_DB: "SchoolOrganisation"
