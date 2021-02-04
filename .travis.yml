@@ -18,28 +18,40 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=CharlotteLinaGauthier_sample-application-students
+    - mvn clean 
+    - mvn verify
 
+  - stage: "Quality Gate [Sonar Cloud]"
+    language: java
+    jdk: oraclejdk11
+    before_script:
+    - cd sample-application-backend
+    script:
+    - mvn test
+    - mvn org.jacoco:jacoco-maven-plugin:prepare-agent 
+    - mvn sonar:sonar -Dsonar.projectKey=CharlotteLinaGauthier_sample-application-students
+  
   - stage: "Build and Test"
     language: node_js
     node_js: "12.20"
     before_script:
     - cd sample-application-frontend
-  - stage: "Package"
+
+ - stage: "Build Push BackEnd docker image"
     before_script:
     - cd sample-application-backend
     script:
     - docker build -t charlottelina29/backend:latest .
     - docker login -p $DOCK_PASS -u $DOCK_ID
     - docker push charlottelina29/backend:latest
-  - stage: "Package"
+    
+  - stage: "Build Push FrontEnd docker image"
     before_script:
     - cd sample-application-frontend
     script:
     - docker build -t charlottelina29/frontend:latest .
     - docker login -p $DOCK_PASS -u $DOCK_ID
     - docker push charlottelina29/frontend:latest
-
 
 cache:
   directories:
